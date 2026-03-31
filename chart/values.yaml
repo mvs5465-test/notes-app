@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/mvs5465-test/notes-app
+  tag: "main"
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  host: notes.lan
+  className: nginx
+
+persistence:
+  size: 1Gi
+  accessMode: ReadWriteOnce
+  storageClassName: local-path
+  existingClaim: ""
+  mountPath: /data
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "25m"
+  limits:
+    memory: "256Mi"
+    cpu: "250m"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

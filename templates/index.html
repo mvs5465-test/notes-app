@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="https://unpkg.com/trix@2.1.15/dist/trix.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body data-selected-note-id="{{ edit_note.id if edit_note else '' }}">
+    <main class="app-shell">
+      <aside class="sidebar panel" data-sidebar>
+        <div class="sidebar-topbar">
+          <div>
+            <p class="eyebrow">notes-app</p>
+            <h1>All notes</h1>
+          </div>
+          <button type="button" class="icon-button" data-theme-toggle aria-label="Toggle light and dark mode">
+            <span data-theme-label>Dark</span>
+          </button>
+        </div>
+
+        <div class="sidebar-actions">
+          <button type="button" class="primary-button" data-new-note>New Note</button>
+          <label class="search-field" for="note-search">
+            <span class="sr-only">Search notes</span>
+            <input id="note-search" type="search" placeholder="Search by keyword" data-note-search>
+          </label>
+        </div>
+
+        <div class="notes-scroll">
+          <ul class="notes-list" data-notes-list></ul>
+          <p class="empty-search-message" data-empty-search hidden>No matching notes.</p>
+          <div class="empty-state sidebar-empty" data-empty-notes hidden>
+            <p>No notes yet.</p>
+            <p>Create one to start writing.</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="editor panel" data-editor-panel>
+        <div class="editor-topbar">
+          <button type="button" class="back-button" data-back-button>Back</button>
+          <div class="editor-heading">
+            <p class="eyebrow">editor</p>
+            <h2 data-editor-title>{{ edit_note.title if edit_note else "New note" }}</h2>
+            <p class="editor-meta" data-editor-meta>
+              {% if edit_note %}
+                Updated {{ edit_note.updated_at }}
+              {% else %}
+                Create a note with the first line as the title.
+              {% endif %}
+            </p>
+            <p class="save-status" data-save-status>Saved</p>
+          </div>
+          <button type="button" class="primary-button save-button" data-save-now>Save</button>
+        </div>
+
+        <form id="note-form" class="editor-form">
+          <input id="body-input" type="hidden" name="body" value="{{ edit_note.body if edit_note else '' }}">
+          <input id="active-note-id" type="hidden" value="{{ edit_note.id if edit_note else '' }}">
+          <trix-editor input="body-input" class="trix-shell" placeholder="Start with the title on the first line"></trix-editor>
+
+          <div class="editor-footer">
+            <p class="editor-hint">The first line becomes the note title.</p>
+            <div class="editor-actions">
+              <button type="button" class="secondary-button" data-new-note>New Note</button>
+              <button type="button" class="danger-button" data-delete-note{% if not edit_note %} hidden{% endif %}>Delete</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/trix@2.1.15/dist/trix.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
