@@ -4,5 +4,5 @@ helm:
     value: ghcr.io/mvs5465-test/notes-app
     forcestring: true
   - name: image.tag
-    value: main@sha256:7dfeac3d1e6bf79579d7d18bdacc93a2ce58f90c3b62f5dcf4e86c8ff0a05c78
+    value: main@sha256:18e10b3c20848680bd55c46f21c817c34e2c14b07da65be7f8b1a450febc49e3
     forcestring: true
